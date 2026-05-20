@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hairpin Chronicles — Kozhikode to the Ghats & Back</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --rust: #c2410c;
+    --gold: #b45309;
+    --forest: #1a3d2e;
+    --mist: #e8e2d5;
+    --highlight: #fbbf24;
+    --smoke: #6b6358;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--forest);
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image:
+      url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Hairpin_Bend_Kolli_Hills.jpg/1280px-Hairpin_Bend_Kolli_Hills.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.35;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(26,61,46,0.4) 0%, rgba(26,20,16,0.85) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 2rem;
+    animation: fadeUp 1.2s ease both;
+  }
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--highlight);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .hero-title em {
+    color: var(--highlight);
+    font-style: italic;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.75);
+    font-weight: 300;
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--highlight);
+    display: block;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+  }
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    font-family: 'Space Mono', monospace;
+    animation: bob 2s ease infinite;
+  }
+  .scroll-hint::after { content: ' ↓'; }
+
+  /* ── ROUTE STRIP ── */
+  .route-strip {
+    background: var(--rust);
+    padding: 1.5rem 2rem;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .route-path {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: #fff;
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+  .route-path span {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    margin: 0.2rem;
+  }
+  .route-path .arrow { background: none; opacity: 0.6; }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--rust);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  /* ── ALERTS ── */
+  .alerts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .alert-card {
+    background: var(--ink);
+    color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid var(--rust);
+    position: relative;
+    overflow: hidden;
+  }
+  .alert-card::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 80px; height: 80px;
+    background: var(--rust);
+    opacity: 0.08;
+    border-radius: 50%;
+    transform: translate(20px, -20px);
+  }
+  .alert-icon { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
+  .alert-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--highlight);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+  }
+  .alert-desc { font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.6; }
+  .alert-time {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--highlight);
+    margin-top: 0.5rem;
+    display: block;
+  }
+
+  /* ── DAYS ── */
+  .day-block {
+    margin-bottom: 5rem;
+  }
+  .day-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--mist);
+  }
+  .day-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--mist);
+    line-height: 1;
+  }
+  .day-info {}
+  .day-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--rust);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .day-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .day-desc { font-size: 0.95rem; color: var(--smoke); line-height: 1.7; max-width: 600px; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--rust), var(--forest));
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: -2.45rem; top: 0.15rem;
+    width: 12px; height: 12px;
+    background: var(--rust);
+    border-radius: 50%;
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 2px var(--rust);
+  }
+  .timeline-time {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--rust);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.25rem;
+  }
+  .timeline-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .timeline-body {
+    font-size: 0.9rem;
+    color: var(--smoke);
+    line-height: 1.7;
+    max-width: 680px;
+  }
+
+  /* ── SPOT CARDS ── */
+  .spots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .spot-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  .spot-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+  }
+  .spot-img {
+    width: 100%; height: 200px;
+    object-fit: cover;
+    display: block;
+    background: var(--mist);
+  }
+  .spot-img-placeholder {
+    width: 100%; height: 200px;
+    background: linear-gradient(135deg, var(--forest) 0%, var(--ink) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
+  .spot-body { padding: 1.25rem; }
+  .spot-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--rust);
+    margin-bottom: 0.3rem;
+  }
+  .spot-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .spot-desc { font-size: 0.82rem; color: var(--smoke); line-height: 1.6; }
+  .spot-tip {
+    margin-top: 0.75rem;
+    background: #fff8e6;
+    border-left: 3px solid var(--highlight);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    color: var(--gold);
+    border-radius: 0 6px 6px 0;
+  }
+
+  /* ── MAP SECTION ── */
+  .map-section {
+    background: var(--ink);
+    padding: 4rem 0;
+    margin: 3rem 0;
+  }
+  .map-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .map-inner .section-title { color: #fff; }
+  .map-inner .section-label { color: var(--highlight); }
+  .map-desc { color: rgba(255,255,255,0.65); font-size: 0.95rem; line-height: 1.7; margin-bottom: 2rem; max-width: 600px; }
+
+  .map-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .map-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .map-link-btn:hover {
+    background: rgba(251,191,36,0.15);
+    border-color: var(--highlight);
+    transform: translateY(-2px);
+  }
+  .map-link-btn .pin { font-size: 1.3rem; flex-shrink: 0; }
+  .map-link-name { font-weight: 500; display: block; margin-bottom: 0.1rem; }
+  .map-link-sub { font-size: 0.72rem; color: rgba(255,255,255,0.45); font-family: 'Space Mono', monospace; }
+
+  .full-route-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--rust);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .full-route-btn:hover { background: #b53b0a; transform: translateY(-2px); }
+
+  /* ── CHECKLIST ── */
+  .checklist-section {
+    background: var(--forest);
+    padding: 5rem 2rem;
+    color: #fff;
+  }
+  .checklist-inner { max-width: 1100px; margin: 0 auto; }
+  .checklist-inner .section-title { color: #fff; }
+  .checklist-inner .section-label { color: var(--highlight); }
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+  .check-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+  .check-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .check-title { font-weight: 500; margin-bottom: 0.35rem; font-size: 0.95rem; }
+  .check-desc { font-size: 0.82rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--ink);
+    color: rgba(255,255,255,0.4);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+  footer span { color: var(--highlight); }
+
+  /* ── DIVIDER ── */
+  .hairpin-divider {
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 1.5rem;
+    opacity: 0.3;
+    letter-spacing: 0.5em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .hero-stats { gap: 1.5rem; }
+    .day-header { grid-template-columns: 1fr; }
+    .day-number { font-size: 3rem; }
+    .timeline { padding-left: 1.5rem; }
+    .timeline-dot { left: -1.9rem; }
+  }
+
+  /* Sticky day nav */
+  .day-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(245,240,232,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--mist);
+    padding: 0.75rem 2rem;
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    justify-content: center;
+  }
+  .day-nav a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: var(--smoke);
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid var(--mist);
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .day-nav a:hover, .day-nav a.active {
+    background: var(--rust);
+    color: #fff;
+    border-color: var(--rust);
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Kozhikode → Valparai → Kolli Hills → Yercaud → Kozhikode</p>
+    <h1 class="hero-title">The <em>Hairpin</em><br>Chronicles</h1>
+    <p class="hero-sub">130 combined hairpin bends. Three mountain ranges. One perfectly timed weekend loop through the Western & Eastern Ghats.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">130+</span>
+        <span class="stat-label">Total Hairpins</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">~1,000</span>
+        <span class="stat-label">km Round Trip</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Hill Stations</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">72</span>
+        <span class="stat-label">hrs Total</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">scroll to explore</div>
+</section>
+
+<!-- ROUTE STRIP -->
+<div class="route-strip">
+  <div class="route-path">
+    <span>🏠 Kozhikode</span>
+    <span class="arrow">→</span>
+    <span>Palakkad</span>
+    <span class="arrow">→</span>
+    <span>Pollachi</span>
+    <span class="arrow">→</span>
+    <span>⛰️ Valparai</span>
+    <span class="arrow">→</span>
+    <span>Namakkal</span>
+    <span class="arrow">→</span>
+    <span>🌀 Kolli Hills</span>
+    <span class="arrow">→</span>
+    <span>Salem</span>
+    <span class="arrow">→</span>
+    <span>🌿 Yercaud</span>
+    <span class="arrow">→</span>
+    <span>Coimbatore Bypass</span>
+    <span class="arrow">→</span>
+    <span>🏠 Kozhikode</span>
+  </div>
+</div>
+
+<!-- STICKY NAV -->
+<nav class="day-nav">
+  <a href="#alerts">⚠️ Checkposts</a>
+  <a href="#friday">Friday Night</a>
+  <a href="#saturday">Day 1 · Valparai</a>
+  <a href="#sunday">Day 2 · Kolli Hills</a>
+  <a href="#monday">Day 3 · Yercaud + Return</a>
+  <a href="#maps">📍 Maps</a>
+  <a href="#checklist">Checklist</a>
+</nav>
+
+<!-- CRITICAL ALERTS -->
+<section id="alerts" class="section">
+  <p class="section-label">Must Know Before You Go</p>
+  <h2 class="section-title">Critical Checkpost &amp;<br>Timing Alerts</h2>
+  <div class="alerts-grid">
+    <div class="alert-card">
+      <span class="alert-icon">🚧</span>
+      <div class="alert-title">Aliyar Checkpost</div>
+      <div class="alert-desc">Entry to Valparai via the 40 hairpin road closes strictly. Clear this on Saturday morning.</div>
+      <span class="alert-time">Closes 6:00 PM</span>
+    </div>
+    <div class="alert-card">
+      <span class="alert-icon">🌿</span>
+      <div class="alert-title">Valparai → Athirapally Forest (SH-21)</div>
+      <div class="alert-desc">This route is avoided entirely on the return. Heavy elephant corridors slow transit. Use NH-544 bypass instead.</div>
+      <span class="alert-time">Open 6 AM – 4:30 PM only</span>
+    </div>
+    <div class="alert-card">
+      <span class="alert-icon">💧</span>
+      <div class="alert-title">Agaya Gangai Waterfalls</div>
+      <div class="alert-desc">Last entry for the 1,000-step descent is at 3 PM. Arrive by 1:30 PM for comfortable time down and back up.</div>
+      <span class="alert-time">Last Entry: 3:00 PM</span>
+    </div>
+    <div class="alert-card">
+      <span class="alert-icon">🌫️</span>
+      <div class="alert-title">Kolli Hills &amp; Yercaud Ghat Roads</div>
+      <div class="alert-desc">Technically open 24h, but thick mist + descending state buses after 5 PM make daytime driving strongly preferred.</div>
+      <span class="alert-time">Best: Before 5:00 PM</span>
+    </div>
+    <div class="alert-card">
+      <span class="alert-icon">🪪</span>
+      <div class="alert-title">TN E-Pass</div>
+      <div class="alert-desc">Register a free entry/transit pass at epass.tnega.org before departure. May be checked at Pollachi/border checkposts.</div>
+      <span class="alert-time">Free · Online Registration</span>
+    </div>
+    <div class="alert-card">
+      <span class="alert-icon">🛑</span>
+      <div class="alert-title">No-Plastic Zones</div>
+      <div class="alert-desc">Valparai and Kolli Hills are strictly monitored forest zones. Forest officers check for plastic bags and bottles.</div>
+      <span class="alert-time">⚠️ Zero Tolerance</span>
+    </div>
+  </div>
+</section>
+
+<div class="hairpin-divider">⌇ ⌇ ⌇ ⌇ ⌇</div>
+
+<!-- FRIDAY NIGHT -->
+<section id="friday" class="section">
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-number">00</div>
+      <div class="day-info">
+        <div class="day-tag">Friday Night · Departure</div>
+        <h2 class="day-name">Clearing the Lowlands</h2>
+        <p class="day-desc">Beat the traffic by departing in the evening. The Kondotty–Malappuram stretch is brutal by day — driving at night turns it into a clean highway run straight into the hills.</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">7:00 PM</div>
+        <h3 class="timeline-heading">Depart Kozhikode</h3>
+        <p class="timeline-body">Leave home. Take the standard route via Malappuram → Palakkad. Roughly 3.5–4 hours on NH-66 / NH-544. Night driving skips the notorious daytime congestion.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">10:30 PM – 11:00 PM</div>
+        <h3 class="timeline-heading">Overnight in Palakkad or Pollachi</h3>
+        <p class="timeline-body">Check into a transit hotel in Palakkad town or push an extra 45 minutes to stay near Pollachi foothills for an early Saturday start. Pollachi stay recommended to be closest to the Aliyar Checkpost.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SATURDAY - VALPARAI -->
+<section id="saturday" class="section" style="padding-top: 0;">
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-number">01</div>
+      <div class="day-info">
+        <div class="day-tag">Saturday · Day 1</div>
+        <h2 class="day-name">The 40 Hairpin Climb — Valparai</h2>
+        <p class="day-desc">The most famous ghat road in Tamil Nadu. Forty continuous, perfectly engineered switchbacks rising through shola forest and tea estates into one of India's most pristine hill towns.</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">7:00 AM – 8:30 AM</div>
+        <h3 class="timeline-heading">Pollachi → Aliyar Checkpost</h3>
+        <p class="timeline-body">Early start is essential. Drive from Pollachi and clear the Aliyar Checkpost before 9 AM. Morning light through the forest is spectacular.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">8:30 AM – 11:00 AM</div>
+        <h3 class="timeline-heading">The Ascent — All 40 Hairpins</h3>
+        <p class="timeline-body">Take your time on the climb. The bends are numbered; each one a reward. Keep the windows down. Watch for the endangered Nilgiri Tahr between bends 4 and 11.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">12:00 PM</div>
+        <h3 class="timeline-heading">Check In · Valparai</h3>
+        <p class="timeline-body">Check into a tea bungalow or forest homestay. Freshen up before the afternoon exploration loop.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">2:00 PM – 5:00 PM</div>
+        <h3 class="timeline-heading">Afternoon Exploration</h3>
+        <p class="timeline-body">Sholayar Dam and Nallamudi Viewpoint are the afternoon highlights. Both require minimal effort for maximum payoff.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">Evening</div>
+        <h3 class="timeline-heading">Mist Drive through Estate Roads</h3>
+        <p class="timeline-body">Valparai's estate roads are completely uncommercialized. As mist rolls in at dusk, drive the backroads through Tata Tea and Parry Agro estates slowly. This is the highlight many visitors miss.</p>
+      </div>
+    </div>
+
+    <div class="spots-grid" style="margin-top:2rem;">
+      <div class="spot-card">
+        <img class="spot-img" src="https://live.staticflickr.com/7305/8712984736_4c61b92d3a_b.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Monkey Falls">
+        <div class="spot-img-placeholder" style="display:none;">🌊</div>
+        <div class="spot-body">
+          <div class="spot-num">SPOT 01 · 29th KM</div>
+          <div class="spot-name">Monkey Falls</div>
+          <div class="spot-desc">Located right on the highway at the 29th km junction. A quick stop with a picturesque waterfall cutting through the roadside forest. Often visited by bonnet macaques — hence the name.</div>
+          <div class="spot-tip">💡 Quick stop, 15 mins. Don't feed the monkeys — forest rules.</div>
+        </div>
+      </div>
+      <div class="spot-card">
+        <img class="spot-img" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/d0/0b/5e/loam-s-view-point.jpg?w=1200&h=700&s=1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Loam's View Point">
+        <div class="spot-img-placeholder" style="display:none;">🏔️</div>
+        <div class="spot-body">
+          <div class="spot-num">SPOT 02 · 9TH HAIRPIN</div>
+          <div class="spot-name">Loam's View Point</div>
+          <div class="spot-desc">Positioned at the 9th hairpin bend, this viewpoint offers a sweeping panorama of the Aliyar Dam reservoir glistening far below. On clear mornings, the entire plain up to Pollachi is visible.</div>
+          <div class="spot-tip">💡 Best with morning light. Watch for Nilgiri Tahr on the adjacent cliff faces.</div>
+        </div>
+      </div>
+      <div class="spot-card">
+        <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Sholayar_dam_view.jpg/1280px-Sholayar_dam_view.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Sholayar Dam">
+        <div class="spot-img-placeholder" style="display:none;">💧</div>
+        <div class="spot-body">
+          <div class="spot-num">SPOT 03 · AFTERNOON</div>
+          <div class="spot-name">Sholayar Dam</div>
+          <div class="spot-desc">One of the highest arch dams in the region. A massive silent reservoir enclosed entirely by the Anamalai Tiger Reserve. The sheer scale of water surrounded by unbroken forest is humbling.</div>
+          <div class="spot-tip">💡 Bring a jacket. Wind off the reservoir is strong year-round.</div>
+        </div>
+      </div>
+      <div class="spot-card">
+        <img class="spot-img" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/a2/e1/b9/nallamudi-poonjolai.jpg?w=1200&h=700&s=1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Nallamudi Viewpoint">
+        <div class="spot-img-placeholder" style="display:none;">🌄</div>
+        <div class="spot-body">
+          <div class="spot-num">SPOT 04 · LATE AFTERNOON</div>
+          <div class="spot-name">Nallamudi Viewpoint</div>
+          <div class="spot-desc">A short walk through green tea estates leads to a cliff-edge perch overlooking sheer valleys of the Anamalai Tiger Reserve. One of the more dramatic viewpoints in the entire Western Ghats range.</div>
+          <div class="spot-tip">💡 Walk is 20–30 min each way. Sturdy shoes recommended; path can be slippery.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUNDAY - KOLLI HILLS -->
+<section id="sunday" class="section" style="padding-top: 0;">
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-number">02</div>
+      <div class="day-info">
+        <div class="day-tag">Sunday · Day 2</div>
+        <h2 class="day-name">The 70 Hairpin Steering Workout — Kolli Hills</h2>
+        <p class="day-desc">The most relentless mountain road in Tamil Nadu. Seventy hairpin bends built for precision — not a single straight to rest your wrists. The Eastern Ghats' best-kept driving secret.</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">6:00 AM – 11:30 AM</div>
+        <h3 class="timeline-heading">Early Checkout · Cross to Eastern Ghats</h3>
+        <p class="timeline-body">Descend Valparai's 40 bends gently (brakes will be hot — don't rush). Route: Pollachi → Kangeyam → Karur → Namakkal. This bypass entirely avoids Coimbatore's morning traffic.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">11:30 AM – 1:00 PM</div>
+        <h3 class="timeline-heading">The Ascent — All 70 Hairpins</h3>
+        <p class="timeline-body">Turn off at Kalappanaickenpatti. Unlike Valparai's scenic pause-and-admire style, Kolli Hills demands focus. Seventy consecutive bends with a precision-built road surface. The most driver-focused ghat in South India.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">1:30 PM – 3:30 PM</div>
+        <h3 class="timeline-heading">Agaya Gangai Falls · CRITICAL TIMING</h3>
+        <p class="timeline-body">Must arrive before 3 PM last entry. Approximately 1,000 steps descend into a deep jungle gorge to a 300-foot waterfall. Allow 1.5–2 hours for the round trip. Save energy — the climb back is steep.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">4:00 PM – 6:00 PM</div>
+        <h3 class="timeline-heading">Temple + Sunset Viewpoints</h3>
+        <p class="timeline-body">Visit the ancient Arapaleeswarar Temple at the trailhead, then watch the Eastern Ghats turn golden at Seekuparai or the Kolli Hills Bend Viewpoint.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">Night</div>
+        <h3 class="timeline-heading">Stay at Cliffside Resort</h3>
+        <p class="timeline-body">Kolli Hills has several secluded farm stays and cliffside resorts on the plateau. A very quiet, uncommercialized night ahead of tomorrow's big return sprint.</p>
+      </div>
+    </div>
+
+    <div class="spots-grid" style="margin-top:2rem;">
+      <div class="spot-card">
+        <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Hairpin_Bend_Kolli_Hills.jpg/1280px-Hairpin_Bend_Kolli_Hills.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Kolli Hills Hairpin">
+        <div class="spot-img-placeholder" style="display:none;">🌀</div>
+        <div class="spot-body">
+          <div class="spot-num">THE ROAD · 70 BENDS</div>
+          <div class="spot-name">The Kolli Hills Ghat Road</div>
+          <div class="spot-desc">Built explicitly for precision. Seventy uninterrupted hairpins climbing through dense Eastern Ghats forest. The road surface is notably well-maintained, rewarding clean cornering technique.</div>
+          <div class="spot-tip">💡 Descend in low gear, brakes get hot fast. Allow 30–40 minutes per direction.</div>
+        </div>
+      </div>
+      <div class="spot-card">
+        <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Agaya_gangai_falls.jpg/800px-Agaya_gangai_falls.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Agaya Gangai Falls">
+        <div class="spot-img-placeholder" style="display:none;">💧</div>
+        <div class="spot-body">
+          <div class="spot-num">SPOT 05 · ⚠️ BEFORE 3 PM</div>
+          <div class="spot-name">Agaya Gangai Waterfalls</div>
+          <div class="spot-desc">300-foot waterfall hidden at the bottom of a 1,000-step jungle gorge. The descent is intense; the falls, otherworldly. Save energy for the climb back — it's significantly harder.</div>
+          <div class="spot-tip">⚠️ Last entry 3:00 PM sharp. Wear proper footwear. Carry water.</div>
+        </div>
+      </div>
+      <div class="spot-card">
+        <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Arapaleeswarar_temple_kolli_hills.jpg/1200px-Arapaleeswarar_temple_kolli_hills.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Arapaleeswarar Temple">
+        <div class="spot-img-placeholder" style="display:none;">🛕</div>
+        <div class="spot-body">
+          <div class="spot-num">SPOT 06 · AT FALLS TRAILHEAD</div>
+          <div class="spot-name">Arapaleeswarar Temple</div>
+          <div class="spot-desc">A 1,000+ year-old Shiva temple located at the trailhead of Agaya Gangai falls. One of the most peaceful, uncrowded ancient temples in the Eastern Ghats — visit before or after the waterfall trek.</div>
+          <div class="spot-tip">💡 Dress modestly. No entry fee. Offers wonderful quiet after the waterfall crowds.</div>
+        </div>
+      </div>
+      <div class="spot-card">
+        <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Kolli_Hills_view.JPG/1280px-Kolli_Hills_view.JPG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Seekuparai Viewpoint">
+        <div class="spot-img-placeholder" style="display:none;">🌅</div>
+        <div class="spot-body">
+          <div class="spot-num">SPOT 07 · SUNSET</div>
+          <div class="spot-name">Seekuparai Viewpoint</div>
+          <div class="spot-desc">A quiet, pristine viewpoint on the Eastern Ghats escarpment. Undiscovered by mainstream tourism, offering unobstructed sunset views across the Namakkal plains below.</div>
+          <div class="spot-tip">💡 Very few visitors at sunset. Bring binoculars for bird sightings.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MONDAY - YERCAUD + RETURN -->
+<section id="monday" class="section" style="padding-top: 0;">
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-number">03</div>
+      <div class="day-info">
+        <div class="day-tag">Monday · Day 3 · Return Sprint</div>
+        <h2 class="day-name">Yercaud's Panoramic Loop &amp; the Great Highway Sprint</h2>
+        <p class="day-desc">The finale. A quick morning loop through Yercaud's colonial coffee estates and viewpoints, then a clean, high-speed charge down NH-544 all the way back to Kozhikode before midnight.</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">7:00 AM – 9:30 AM</div>
+        <h3 class="timeline-heading">Kolli Hills → Salem → Yercaud</h3>
+        <p class="timeline-body">Early checkout. Descend 70 hairpins and head straight for Salem, then climb Yercaud's 20 wide sweeping hairpins. Total approx. 2.5 hours. Yercaud's bends are leisurely compared to yesterday.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">9:30 AM – 2:00 PM</div>
+        <h3 class="timeline-heading">Yercaud Highlights Loop</h3>
+        <p class="timeline-body">Pagoda Point for misty morning views. Lady's Seat and Gent's Seat for dramatic valley overlooks directly above Salem city. Lunch at the lakeside followed by the 32 km Loop Road through old coffee estates.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">2:30 PM</div>
+        <h3 class="timeline-heading">Descend to Salem · Sprint Begins</h3>
+        <p class="timeline-body">Leave Yercaud, descend to Salem. Fuel up completely before joining the NH-544 highway west.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">3:30 PM – 11:30 PM</div>
+        <h3 class="timeline-heading">The Highway Sprint Home</h3>
+        <p class="timeline-body">Salem → Erode Bypass → Coimbatore Bypass → Palakkad → Kozhikode. A clean, uninterrupted 4-lane national highway run. Salem to Palakkad is ~3.5–4 hours. Palakkad to Kozhikode another ~3.5 hours. Comfortable midnight arrival.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">11:00 PM – 11:30 PM</div>
+        <h3 class="timeline-heading">🏠 Home · Kozhikode</h3>
+        <p class="timeline-body">Arrive safely. Well within the midnight deadline. 130 hairpins conquered, three hill stations ticked, and the car's brakes thoroughly exercised.</p>
+      </div>
+    </div>
+
+    <div class="spots-grid" style="margin-top:2rem;">
+      <div class="spot-card">
+        <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Yercaud_lake.jpg/1280px-Yercaud_lake.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Yercaud Lake">
+        <div class="spot-img-placeholder" style="display:none;">🌊</div>
+        <div class="spot-body">
+          <div class="spot-num">SPOT 08 · MORNING</div>
+          <div class="spot-name">Pagoda Point (Pyramid Point)</div>
+          <div class="spot-desc">On the eastern edge of the Yercaud plateau. Morning mist hangs over the neighboring village valleys below. One of the finest sunrise viewpoints in the Salem district.</div>
+          <div class="spot-tip">💡 Arrive by 10 AM before the mist fully clears for the best atmosphere.</div>
+        </div>
+      </div>
+      <div class="spot-card">
+        <img class="spot-img" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/95/f5/26/lady-s-seat.jpg?w=1200&h=700&s=1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Lady's Seat Yercaud">
+        <div class="spot-img-placeholder" style="display:none;">🏙️</div>
+        <div class="spot-body">
+          <div class="spot-num">SPOT 09 · MID-MORNING</div>
+          <div class="spot-name">Lady's Seat &amp; Gent's Seat</div>
+          <div class="spot-desc">Two rock overlooks perched directly above Salem city, connected by a short path. Looking straight down 1,200 feet onto a city of 1.5 million is a dizzying, extraordinary perspective.</div>
+          <div class="spot-tip">💡 The Gent's Seat has the more dramatic sheer drop. Avoid weekends — gets crowded.</div>
+        </div>
+      </div>
+      <div class="spot-card">
+        <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Yercaud_Lake.jpg/1280px-Yercaud_Lake.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Yercaud Lake">
+        <div class="spot-img-placeholder" style="display:none;">☕</div>
+        <div class="spot-body">
+          <div class="spot-num">SPOT 10 · LUNCH</div>
+          <div class="spot-name">Yercaud Lake &amp; 32 km Loop Road</div>
+          <div class="spot-desc">A slow drive along the 32 km loop road through old colonial coffee and pepper plantations. Lunch by the central lake before the big descent. This road encircles the entire Yercaud plateau.</div>
+          <div class="spot-tip">💡 Try the coffee grown locally — Yercaud's arabica estates are some of Tamil Nadu's best.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAPS SECTION -->
+<section id="maps" class="map-section">
+  <div class="map-inner">
+    <p class="section-label">Navigation</p>
+    <h2 class="section-title">Open Each Location in Google Maps</h2>
+    <p class="map-desc">Tap any location below to open it directly in Google Maps for navigation. The full route link opens the complete turn-by-turn loop from Kozhikode and back.</p>
+
+    <div class="map-links-grid">
+      <a class="map-link-btn" href="https://maps.google.com/?q=Aliyar+Checkpost,Pollachi,Tamil+Nadu" target="_blank" rel="noopener">
+        <span class="pin">🚧</span>
+        <div>
+          <span class="map-link-name">Aliyar Checkpost</span>
+          <span class="map-link-sub">Pollachi · Entry Gate</span>
+        </div>
+      </a>
+      <a class="map-link-btn" href="https://maps.google.com/?q=Monkey+Falls,Valparai,Tamil+Nadu" target="_blank" rel="noopener">
+        <span class="pin">🌊</span>
+        <div>
+          <span class="map-link-name">Monkey Falls</span>
+          <span class="map-link-sub">Valparai · 29th km</span>
+        </div>
+      </a>
+      <a class="map-link-btn" href="https://maps.google.com/?q=Loam's+View+Point,Valparai" target="_blank" rel="noopener">
+        <span class="pin">🏔️</span>
+        <div>
+          <span class="map-link-name">Loam's View Point</span>
+          <span class="map-link-sub">Valparai · 9th Hairpin</span>
+        </div>
+      </a>
+      <a class="map-link-btn" href="https://maps.google.com/?q=Sholayar+Dam,Valparai,Tamil+Nadu" target="_blank" rel="noopener">
+        <span class="pin">💧</span>
+        <div>
+          <span class="map-link-name">Sholayar Dam</span>
+          <span class="map-link-sub">Valparai · Afternoon</span>
+        </div>
+      </a>
+      <a class="map-link-btn" href="https://maps.google.com/?q=Nallamudi+Viewpoint,Valparai" target="_blank" rel="noopener">
+        <span class="pin">🌄</span>
+        <div>
+          <span class="map-link-name">Nallamudi Viewpoint</span>
+          <span class="map-link-sub">Valparai · Tea Estate Edge</span>
+        </div>
+      </a>
+      <a class="map-link-btn" href="https://maps.google.com/?q=Kolli+Hills,Namakkal,Tamil+Nadu" target="_blank" rel="noopener">
+        <span class="pin">🌀</span>
+        <div>
+          <span class="map-link-name">Kolli Hills Ghat Entry</span>
+          <span class="map-link-sub">Namakkal · 70 Hairpins</span>
+        </div>
+      </a>
+      <a class="map-link-btn" href="https://maps.google.com/?q=Agaya+Gangai+Waterfalls,Kolli+Hills" target="_blank" rel="noopener">
+        <span class="pin">💦</span>
+        <div>
+          <span class="map-link-name">Agaya Gangai Falls</span>
+          <span class="map-link-sub">Kolli Hills · 1,000 Steps</span>
+        </div>
+      </a>
+      <a class="map-link-btn" href="https://maps.google.com/?q=Arapaleeswarar+Temple,Kolli+Hills" target="_blank" rel="noopener">
+        <span class="pin">🛕</span>
+        <div>
+          <span class="map-link-name">Arapaleeswarar Temple</span>
+          <span class="map-link-sub">Kolli Hills · Ancient</span>
+        </div>
+      </a>
+      <a class="map-link-btn" href="https://maps.google.com/?q=Seekuparai+Viewpoint,Kolli+Hills" target="_blank" rel="noopener">
+        <span class="pin">🌅</span>
+        <div>
+          <span class="map-link-name">Seekuparai Viewpoint</span>
+          <span class="map-link-sub">Kolli Hills · Sunset</span>
+        </div>
+      </a>
+      <a class="map-link-btn" href="https://maps.google.com/?q=Pagoda+Point,Yercaud" target="_blank" rel="noopener">
+        <span class="pin">⛩️</span>
+        <div>
+          <span class="map-link-name">Pagoda Point</span>
+          <span class="map-link-sub">Yercaud · Morning Mist</span>
+        </div>
+      </a>
+      <a class="map-link-btn" href="https://maps.google.com/?q=Lady's+Seat,Yercaud,Salem" target="_blank" rel="noopener">
+        <span class="pin">🏙️</span>
+        <div>
+          <span class="map-link-name">Lady's Seat</span>
+          <span class="map-link-sub">Yercaud · Cliff Overlook</span>
+        </div>
+      </a>
+      <a class="map-link-btn" href="https://maps.google.com/?q=Yercaud+Lake,Yercaud,Tamil+Nadu" target="_blank" rel="noopener">
+        <span class="pin">☕</span>
+        <div>
+          <span class="map-link-name">Yercaud Lake</span>
+          <span class="map-link-sub">Yercaud · Lunch Stop</span>
+        </div>
+      </a>
+    </div>
+
+    <a class="full-route-btn"
+       href="https://www.google.com/maps/dir/Kozhikode,Kerala/Palakkad,Kerala/Pollachi,Tamil+Nadu/Valparai,Tamil+Nadu/Namakkal,Tamil+Nadu/Kolli+Hills,Tamil+Nadu/Salem,Tamil+Nadu/Yercaud,Tamil+Nadu/Coimbatore,Tamil+Nadu/Palakkad,Kerala/Kozhikode,Kerala"
+       target="_blank" rel="noopener">
+      🗺️ Open Complete Loop Route in Google Maps
+    </a>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section id="checklist" class="checklist-section">
+  <div class="checklist-inner">
+    <p class="section-label">Pre-Departure</p>
+    <h2 class="section-title">Final Preparation Checklist</h2>
+    <div class="checklist-grid">
+      <div class="check-item">
+        <span class="check-icon">🔧</span>
+        <div>
+          <div class="check-title">Brake Inspection</div>
+          <div class="check-desc">130 combined hairpins will heavily load your brakes. Check brake pad thickness and fluid level before departure. Don't skip this — Valparai's descent after Kolli Hills will punish worn pads.</div>
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">🛞</span>
+        <div>
+          <div class="check-title">Tyre Pressure & Condition</div>
+          <div class="check-desc">Check all four tyres including the spare. Mountain roads amplify any existing tyre weakness. Inflate to the manufacturer's recommended ghat-driving pressure (usually lower than highway).</div>
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">💧</span>
+        <div>
+          <div class="check-title">Coolant & Engine Oil</div>
+          <div class="check-desc">Long mountain climbs in low gears heat engines significantly. Top up coolant and verify oil level. Carry 1L spare engine oil as backup.</div>
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">🪪</span>
+        <div>
+          <div class="check-title">TN E-Pass Registration</div>
+          <div class="check-desc">Register for free at epass.tnega.org before departure. May be required at Pollachi border checkpost. Takes 5 minutes online.</div>
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">🚫</span>
+        <div>
+          <div class="check-title">No Plastic — Zero Tolerance</div>
+          <div class="check-desc">Both Valparai and Kolli Hills are strictly monitored forest zones. Replace all plastic bottles with steel/glass. Forest officers conduct checks; fines are significant.</div>
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">⛽</span>
+        <div>
+          <div class="check-title">Full Tank at Every City</div>
+          <div class="check-desc">Fuel stations on Valparai and Kolli Hills hilltops are unreliable. Always fill up completely at Pollachi before the climb and Salem before the highway sprint home.</div>
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">🥾</span>
+        <div>
+          <div class="check-title">Trekking Footwear</div>
+          <div class="check-desc">Agaya Gangai falls requires 1,000 steps down and back up. The steps can be wet and slippery from spray. Proper grip shoes are non-negotiable.</div>
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">🌡️</span>
+        <div>
+          <div class="check-title">Layered Clothing</div>
+          <div class="check-desc">Valparai nights drop to ~16°C. Kolli Hills plateau is breezy and cool even in summer. A light fleece and windbreaker will be used every night of this trip.</div>
+        </div>
+      </div>
+      <div class="check-item">
+        <span class="check-icon">📡</span>
+        <div>
+          <div class="check-title">Offline Maps Downloaded</div>
+          <div class="check-desc">Mobile signal is patchy on all three ghats. Download Google Maps offline for Valparai, Kolli Hills, and Yercaud regions before departure.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>🏔️ The Hairpin Chronicles &nbsp;|&nbsp; Kozhikode ↔ Valparai ↔ Kolli Hills ↔ Yercaud<br>
+  <span>130+ Hairpins</span> · <span>3 Hill Stations</span> · <span>72 Hours</span> · Back by midnight.</p>
+</footer>
+
+<script>
+  // Sticky nav highlight
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.day-nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // Fade in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.spot-card, .alert-card, .check-item, .timeline-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
